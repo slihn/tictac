@@ -6,7 +6,7 @@ import itertools
 from collections import deque
 
 from tictac.tictac.board import BoardCache, Board
-from tictac.tictac.board import play_game, play_random_move, is_draw
+from tictac.tictac.board import play_game, play_random_move
 from tictac.tictac.board import (CELL_X, CELL_O, RESULT_X_WINS, RESULT_O_WINS)
 
 WIN_VALUE = 1.0
@@ -239,7 +239,7 @@ def get_game_result_value(player, board):
         return WIN_VALUE
     if is_loss(player, board):
         return LOSS_VALUE
-    if is_draw(board):
+    if board.is_draw():
         return DRAW_VALUE
 
 

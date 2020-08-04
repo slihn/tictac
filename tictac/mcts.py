@@ -1,8 +1,7 @@
 import math
 
 from tictac.tictac.board import play_game
-from tictac.tictac.board import (Board, BoardCache, CELL_X, CELL_O, RESULT_X_WINS,
-                          RESULT_O_WINS, is_draw)
+from tictac.tictac.board import (Board, BoardCache, CELL_X, CELL_O, RESULT_X_WINS, RESULT_O_WINS)
 
 nodecache = BoardCache()
 
@@ -39,10 +38,12 @@ def play_game_and_reset_playouts(x_strategy, o_strategy, node_cache=nodecache):
     node_cache.reset()
     return board
 
+
 def play_mcts_move_with_live_playouts(board, node_cache=nodecache, num_playouts=200):
     perform_training_playouts(node_cache, board, num_playouts,
                               display_progress=False)
     return play_mcts_move(board, node_cache)
+
 
 def play_mcts_move(board, node_cache=nodecache):
     move_index_node_pairs = get_move_index_node_pairs(board, node_cache)
@@ -69,7 +70,7 @@ def perform_training_playouts(node_cache=nodecache, board=Board(),
 def perform_game_playout(node_cache, board):
     game_history = [board]
 
-    while not board.is_gameover():
+    while not board.is_game_over():
         move_index = choose_move(node_cache, board)
         board = board.play_move(move_index)
         game_history.append(board)
@@ -117,7 +118,7 @@ def backpropagate(node_cache, final_board_position, game_history):
             node.wins += 1
         elif is_loss(board.get_turn(), final_board_position):
             node.losses += 1
-        elif is_draw(final_board_position):
+        elif final_board_position.is_draw():
             node.draws += 1
         else:
             raise ValueError("Illegal game state")

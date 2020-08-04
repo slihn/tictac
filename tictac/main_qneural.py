@@ -9,8 +9,8 @@ from tictac.tictac.qneural import (TicTacNet, NetContext, create_qneural_player,
                             get_q_values, play_training_games_x,
                             play_training_games_o)
 
-play_minimax_move_randomized = create_minimax_player(True)
-play_minimax_move_not_randomized = create_minimax_player(False)
+play_minimax_move_randomized = create_minimax_player(randomize=True)
+play_minimax_move_not_randomized = create_minimax_player(randomize=False)
 
 
 policy_net = TicTacNet()

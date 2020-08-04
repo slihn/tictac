@@ -45,7 +45,7 @@ def get_position_value(board):
 
 
 def calculate_position_value(board):
-    if board.is_gameover():
+    if board.is_game_over():
         return board.get_game_result()
 
     valid_move_indexes = board.get_valid_move_indexes()

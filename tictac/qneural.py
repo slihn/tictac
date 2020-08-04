@@ -7,7 +7,7 @@ from collections import deque
 import torch
 from torch import nn
 
-from tictac.tictac.board import play_game, is_draw
+from tictac.tictac.board import play_game
 from tictac.tictac.board import (CELL_X, CELL_O, RESULT_X_WINS, RESULT_O_WINS)
 
 WIN_VALUE = 1.0
@@ -121,7 +121,6 @@ def play_training_games(net_context, qplayer, total_games, discount_factor,
             o = [create_training_player(net_context, move_history, epsilon)]
             o_strategies_to_use = itertools.cycle(o)
 
-
         x_strategy_to_use = next(x_strategies_to_use)
         o_strategy_to_use = next(o_strategies_to_use)
 
@@ -208,7 +207,7 @@ def get_game_result_value(player, board):
         return WIN_VALUE
     if is_loss(player, board):
         return LOSS_VALUE
-    if is_draw(board):
+    if board.is_draw():
         return DRAW_VALUE
 
 

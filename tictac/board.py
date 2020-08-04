@@ -22,6 +22,7 @@ RESULT_O_WINS = -1
 RESULT_DRAW = 0
 RESULT_NOT_OVER = 2
 
+# a Board is an array of CELLs representing N x N matrix
 new_board = np.array([CELL_EMPTY] * BOARD_SIZE ** 2)
 
 
@@ -29,7 +30,7 @@ def play_game(x_strategy, o_strategy):
     board = Board()
     player_strategies = itertools.cycle([x_strategy, o_strategy])
 
-    while not board.is_gameover():
+    while not board.is_game_over():
         play = next(player_strategies)
         board = play(board)
 
@@ -70,6 +71,9 @@ def is_empty(values):
     return values is None or len(values) == 0
 
 
+# ----------------------------------------------------
+# ----------------------------------------------------
+# ----------------------------------------------------
 class Board:
     def __init__(self, board=None, illegal_move=None):
         if board is None:
@@ -102,13 +106,19 @@ class Board:
 
         return RESULT_NOT_OVER
 
-    def is_gameover(self):
+    # result related routines
+    def is_game_over(self):
         return self.get_game_result() != RESULT_NOT_OVER
 
+    def is_draw(self):
+        return self.get_game_result() == RESULT_DRAW
+
+    # ----------------------------------------------------
+    # moves and state
     def is_in_illegal_state(self):
         return self.illegal_move is not None
 
-    def play_move(self, move_index):
+    def play_move(self, move_index: int):  # returns next Board()
         board_copy = np.copy(self.board)
 
         if move_index not in self.get_valid_move_indexes():
@@ -121,21 +131,20 @@ class Board:
         non_zero = np.count_nonzero(self.board)
         return CELL_X if is_even(non_zero) else CELL_O
 
-    def get_valid_move_indexes(self):
-        return ([i for i in range(self.board.size)
-                 if self.board[i] == CELL_EMPTY])
+    def get_valid_move_indexes(self) -> [int]:
+        return [i for i in range(self.board.size) if self.board[i] == CELL_EMPTY]
 
-    def get_illegal_move_indexes(self):
-        return ([i for i in range(self.board.size)
-                if self.board[i] != CELL_EMPTY])
+    def get_illegal_move_indexes(self) -> [int]:
+        return [i for i in range(self.board.size) if self.board[i] != CELL_EMPTY]
 
-    def get_random_valid_move_index(self):
+    def get_random_valid_move_index(self) -> int:
         return random.choice(self.get_valid_move_indexes())
 
+    # --------------------------------------------------------------------------
     def print_board(self):
         print(self.get_board_as_string())
 
-    def get_board_as_string(self):
+    def get_board_as_string(self) -> str:
         rows, cols = self.board_2d.shape
         board_as_string = "-------\n"
         for r in range(rows):
@@ -197,7 +206,3 @@ def get_symbol(cell):
     if cell == CELL_O:
         return 'O'
     return '-'
-
-
-def is_draw(board):
-    return board.get_game_result() == RESULT_DRAW
