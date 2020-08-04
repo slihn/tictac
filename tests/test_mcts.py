@@ -1,9 +1,9 @@
 import math
 import numpy as np
 
-from tictac.board import BoardCache, Board
-from tictac.mcts import (perform_game_playout, find_or_create_node,
-                         calculate_values, perform_training_playouts)
+from tictac.tictac.board import BoardCache, Board
+from tictac.tictac.mcts import (perform_game_playout, find_or_create_node,
+                                calculate_values, perform_training_playouts)
 
 
 def test_play_mcts_move():

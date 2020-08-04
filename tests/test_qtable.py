@@ -4,10 +4,10 @@ import numpy as np
 import random
 from collections import deque
 
-from tictac.board import Board, CELL_X, CELL_O, new_board, play_random_move
-from tictac.qtable import (INITIAL_Q_VALUES_FOR_O, INITIAL_Q_VALUES_FOR_X,
-                           QTable, choose_move_index, create_training_player,
-                           play_training_game, get_move_average_q_value_pairs)
+from tictac.tictac.board import Board, CELL_X, CELL_O, new_board, play_random_move
+from tictac.tictac.qtable import (INITIAL_Q_VALUES_FOR_O, INITIAL_Q_VALUES_FOR_X,
+                                  QTable, choose_move_index, create_training_player,
+                                  play_training_game, get_move_average_q_value_pairs)
 
 
 @pytest.fixture(autouse=True)

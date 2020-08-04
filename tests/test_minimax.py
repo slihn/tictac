@@ -2,12 +2,11 @@ import pytest
 
 import numpy as np
 
-from tictac.minimax import cache
-from tictac.minimax import (get_position_value, get_move_value_pairs,
-                            play_minimax_move)
-from tictac.board import Board
-from tictac.board import RESULT_X_WINS, RESULT_O_WINS, RESULT_DRAW
-from tictac.board import get_symmetrical_board_orientations
+from tictac.tictac.minimax import cache
+from tictac.tictac.minimax import (get_position_value, get_move_value_pairs, play_minimax_move)
+from tictac.tictac.board import Board
+from tictac.tictac.board import RESULT_X_WINS, RESULT_O_WINS, RESULT_DRAW
+from tictac.tictac.transform import get_symmetrical_board_orientations
 
 
 @pytest.fixture(autouse=True)

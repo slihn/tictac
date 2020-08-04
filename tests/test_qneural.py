@@ -5,9 +5,9 @@ import pytest
 import torch
 from torch.nn import MSELoss
 
-from tictac.board import Board
-from tictac.qneural import TicTacNet, NetContext
-from tictac.qneural import convert_to_tensor, create_qneural_player
+from tictac.tictac.board import Board
+from tictac.tictac.qneural import TicTacNet, NetContext
+from tictac.tictac.qneural import convert_to_tensor, create_qneural_player
 
 
 @pytest.fixture(autouse=True)

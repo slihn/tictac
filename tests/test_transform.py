@@ -1,5 +1,5 @@
 import numpy as np
-from tictac.transform import Transform, Rotate90, Flip
+from tictac.tictac.transform import Transform, Rotate90, Flip
 
 
 def test_transform():

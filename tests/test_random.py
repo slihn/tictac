@@ -1,6 +1,6 @@
 import numpy as np
 
-from tictac.board import Board
+from tictac.tictac.board import Board
 
 
 def test_get_random_valid_move():

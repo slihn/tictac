@@ -3,12 +3,8 @@ import itertools
 import numpy as np
 
 
-from tictac.tictac.transform import Transform, Identity, Rotate90, Flip
+from tictac.tictac import transform
 
-TRANSFORMATIONS = [Identity(), Rotate90(1), Rotate90(2), Rotate90(3),
-                   Flip(np.flipud), Flip(np.fliplr),
-                   Transform(Rotate90(1), Flip(np.flipud)),
-                   Transform(Rotate90(1), Flip(np.fliplr))]
 
 BOARD_SIZE = 3
 BOARD_DIMENSIONS = (BOARD_SIZE, BOARD_SIZE)
@@ -27,11 +23,11 @@ new_board = np.array([CELL_EMPTY] * BOARD_SIZE ** 2)
 
 
 def play_game(x_strategy, o_strategy):
-    board = Board()
+    board = Board()  # new board
     player_strategies = itertools.cycle([x_strategy, o_strategy])
 
     while not board.is_game_over():
-        play = next(player_strategies)
+        play = next(player_strategies)  # X, O, X, O, ..., game over
         board = play(board)
 
     return board
@@ -163,6 +159,7 @@ class Board:
 
 class BoardCache:
     def __init__(self):
+        # a generic cache for {board -> value} data
         self.cache = {}
 
     def set_for_position(self, board, o):
@@ -171,7 +168,7 @@ class BoardCache:
     def get_for_position(self, board):
         board_2d = board.board_2d
 
-        orientations = get_symmetrical_board_orientations(board_2d)
+        orientations = transform.get_symmetrical_board_orientations(board_2d)
 
         for b, t in orientations:
             result = self.cache.get(b.tobytes())
@@ -182,10 +179,6 @@ class BoardCache:
 
     def reset(self):
         self.cache = {}
-
-
-def get_symmetrical_board_orientations(board_2d):
-    return [(t.transform(board_2d), t) for t in TRANSFORMATIONS]
 
 
 def get_rows_cols_and_diagonals(board_2d):

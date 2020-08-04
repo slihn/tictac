@@ -1,8 +1,7 @@
 import numpy as np
 
-from tictac.board import (RESULT_X_WINS, RESULT_O_WINS, RESULT_DRAW,
-                          RESULT_NOT_OVER)
-from tictac.board import Board, get_rows_cols_and_diagonals
+from tictac.tictac.board import (RESULT_X_WINS, RESULT_O_WINS, RESULT_DRAW, RESULT_NOT_OVER)
+from tictac.tictac.board import Board, get_rows_cols_and_diagonals
 
 
 def test_get_valid_move_indexes():
