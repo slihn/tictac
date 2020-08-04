@@ -1,8 +1,8 @@
 import random
 
-from tictac.board import BoardCache
-from tictac.board import CELL_O
-from tictac.board import is_empty
+from tictac.tictac.board import BoardCache
+from tictac.tictac.board import CELL_O
+from tictac.tictac.board import is_empty
 
 cache = BoardCache()
 

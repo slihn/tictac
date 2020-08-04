@@ -5,9 +5,9 @@ import operator
 import itertools
 from collections import deque
 
-from tictac.board import BoardCache, Board
-from tictac.board import play_game, play_random_move, is_draw
-from tictac.board import (BOARD_SIZE, BOARD_DIMENSIONS, CELL_X, CELL_O,
+from tictac.tictac.board import BoardCache, Board
+from tictac.tictac.board import play_game, play_random_move, is_draw
+from tictac.tictac.board import (BOARD_SIZE, BOARD_DIMENSIONS, CELL_X, CELL_O,
                           RESULT_X_WINS, RESULT_O_WINS)
 
 # Contains old version of code that required transforming/reverse-transforming

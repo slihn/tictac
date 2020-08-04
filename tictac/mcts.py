@@ -1,7 +1,7 @@
 import math
 
-from tictac.board import play_game
-from tictac.board import (Board, BoardCache, CELL_X, CELL_O, RESULT_X_WINS,
+from tictac.tictac.board import play_game
+from tictac.tictac.board import (Board, BoardCache, CELL_X, CELL_O, RESULT_X_WINS,
                           RESULT_O_WINS, is_draw)
 
 nodecache = BoardCache()

@@ -3,7 +3,7 @@ import itertools
 import numpy as np
 
 
-from tictac.transform import Transform, Identity, Rotate90, Flip
+from tictac.tictac.transform import Transform, Identity, Rotate90, Flip
 
 TRANSFORMATIONS = [Identity(), Rotate90(1), Rotate90(2), Rotate90(3),
                    Flip(np.flipud), Flip(np.fliplr),

@@ -3,9 +3,9 @@ import numpy as np
 import torch
 from torch.nn import MSELoss
 
-from tictac.board import play_random_move, play_games, Board
-from tictac.minimax import create_minimax_player
-from tictac.qneural import (TicTacNet, NetContext, create_qneural_player,
+from tictac.tictac.board import play_random_move, play_games, Board
+from tictac.tictac.minimax import create_minimax_player
+from tictac.tictac.qneural import (TicTacNet, NetContext, create_qneural_player,
                             get_q_values, play_training_games_x,
                             play_training_games_o)
 

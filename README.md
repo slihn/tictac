@@ -11,16 +11,13 @@ Install using pipenv:
 * `pipenv shell`
 * `pipenv install --dev`
 
-Set `PYTHONPATH` to main project directory:
-
-* In windows, run `path.bat`
-* In bash run `source path.sh`
+Set `PYTHONPATH` to one level above main project directory:
 
 Run tests and demo:
 
 * Run tests: `pytest`
-* Run demo: `python -m tictac.main`
-* Run neural net demo: `python -m tictac.main_qneural`
+* Run demo: `python -m tictac.tictac.main`
+* Run neural net demo: `python -m tictac.tictac.main_qneural`
 
 Latest results:
 

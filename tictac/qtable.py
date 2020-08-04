@@ -5,9 +5,9 @@ import operator
 import itertools
 from collections import deque
 
-from tictac.board import BoardCache, Board
-from tictac.board import play_game, play_random_move, is_draw
-from tictac.board import (CELL_X, CELL_O, RESULT_X_WINS, RESULT_O_WINS)
+from tictac.tictac.board import BoardCache, Board
+from tictac.tictac.board import play_game, play_random_move, is_draw
+from tictac.tictac.board import (CELL_X, CELL_O, RESULT_X_WINS, RESULT_O_WINS)
 
 WIN_VALUE = 1.0
 DRAW_VALUE = 1.0
