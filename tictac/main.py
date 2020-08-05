@@ -1,4 +1,4 @@
-from tictac.tictac.board import play_games
+from tictac.tictac.board import play_games, RESULT_X_WINS, RESULT_O_WINS, RESULT_DRAW
 from tictac.tictac.board import play_random_move
 from tictac.tictac.minimax import create_minimax_player
 from tictac.tictac.qtable import (qtables, play_training_games_x,
@@ -14,34 +14,43 @@ play_minimax_move_not_randomized = create_minimax_player(randomize=False)
 
 print("Playing minimax random vs random:")
 print("---------------------------------")
-play_games(1000, play_minimax_move_randomized, play_random_move)
+rs1 = play_games(1000, play_minimax_move_randomized, play_random_move)
+assert rs1[RESULT_X_WINS] >= 95, f"ERROR: X wins too low: {rs1}"
 print("")
+
 print("Playing random vs minimax random:")
 print("---------------------------------")
-play_games(1000, play_random_move, play_minimax_move_randomized)
+rs2 = play_games(1000, play_random_move, play_minimax_move_randomized)
+assert rs2[RESULT_O_WINS] >= 75, f"ERROR: O wins too low: {rs2}"
 print("")
 
 print("Playing random vs random:")
 print("-------------------------")
-play_games(1000, play_random_move, play_random_move)
+rs3 = play_games(1000, play_random_move, play_random_move)
+assert rs3[RESULT_X_WINS] >= 50, f"ERROR: X wins too low: {rs2}"
+assert rs3[RESULT_O_WINS] <= 35, f"ERROR: O wins too high: {rs2}"
 print("")
 
 print("Playing minimax not random vs minimax random:")
 print("---------------------------------------------")
-play_games(1000, play_minimax_move_not_randomized, play_minimax_move_randomized)
+rs = play_games(1000, play_minimax_move_not_randomized, play_minimax_move_randomized)
+assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
 print("Playing minimax random vs minimax not random:")
 print("---------------------------------------------")
-play_games(1000, play_minimax_move_randomized, play_minimax_move_not_randomized)
+rs = play_games(1000, play_minimax_move_randomized, play_minimax_move_not_randomized)
+assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
 print("Playing minimax not random vs minimax not random:")
 print("-------------------------------------------------")
-play_games(1000, play_minimax_move_not_randomized,
-           play_minimax_move_not_randomized)
+rs = play_games(1000, play_minimax_move_not_randomized, play_minimax_move_not_randomized)
+assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
+
 print("Playing minimax random vs minimax random:")
 print("-----------------------------------------")
-play_games(1000, play_minimax_move_randomized, play_minimax_move_randomized)
+rs = play_games(1000, play_minimax_move_randomized, play_minimax_move_randomized)
+assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
 
 print("Training qtable X vs. random...")

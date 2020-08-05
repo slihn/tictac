@@ -16,7 +16,7 @@ CELL_EMPTY = 0
 RESULT_X_WINS = 1
 RESULT_O_WINS = -1
 RESULT_DRAW = 0
-RESULT_NOT_OVER = 2
+RESULT_NOT_OVER = 2  # this is not for the end result. it is just an intermediate status.
 
 # a Board is an array of CELLs representing N x N matrix
 new_board = np.array([CELL_EMPTY] * BOARD_SIZE ** 2)
@@ -53,10 +53,12 @@ def play_games(total_games, x_strategy, o_strategy, play_single_game=play_game):
     print(f"o wins: {o_wins_percent:.2f}%")
     print(f"draw  : {draw_percent:.2f}%")
 
-
-def play_random_move(board):
-    move = board.get_random_valid_move_index()
-    return board.play_move(move)
+    percents = {
+        RESULT_X_WINS: x_wins_percent,
+        RESULT_O_WINS: o_wins_percent,
+        RESULT_DRAW: draw_percent
+    }
+    return percents
 
 
 def is_even(value):
@@ -123,7 +125,7 @@ class Board:
         board_copy[move_index] = self.get_turn()
         return Board(board_copy)
 
-    def get_turn(self):
+    def get_turn(self):  # who should play next move
         non_zero = np.count_nonzero(self.board)
         return CELL_X if is_even(non_zero) else CELL_O
 
@@ -136,7 +138,7 @@ class Board:
     def get_random_valid_move_index(self) -> int:
         return random.choice(self.get_valid_move_indexes())
 
-    # --------------------------------------------------------------------------
+    # -----------------------------------------------------
     def print_board(self):
         print(self.get_board_as_string())
 
@@ -157,6 +159,9 @@ class Board:
         return board_as_string
 
 
+# --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 class BoardCache:
     def __init__(self):
         # a generic cache for {board -> value} data
@@ -183,8 +188,8 @@ class BoardCache:
 
 def get_rows_cols_and_diagonals(board_2d):
     rows_and_diagonal = get_rows_and_diagonal(board_2d)
-    cols_and_antidiagonal = get_rows_and_diagonal(np.rot90(board_2d))
-    return rows_and_diagonal + cols_and_antidiagonal
+    cols_and_anti_diagonal = get_rows_and_diagonal(np.rot90(board_2d))
+    return rows_and_diagonal + cols_and_anti_diagonal
 
 
 def get_rows_and_diagonal(board_2d):
@@ -199,3 +204,12 @@ def get_symbol(cell):
     if cell == CELL_O:
         return 'O'
     return '-'
+
+
+# --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# this player plays a random move
+def play_random_move(board: Board) -> Board:
+    move = board.get_random_valid_move_index()
+    return board.play_move(move)
