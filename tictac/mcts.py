@@ -1,7 +1,7 @@
 import math
 
 from tictac.tictac.board import play_game
-from tictac.tictac.board import (Board, BoardCache, CELL_X, CELL_O, RESULT_X_WINS, RESULT_O_WINS)
+from tictac.tictac.board import (Board, BoardCache)
 
 nodecache = BoardCache()
 
@@ -114,9 +114,9 @@ def backpropagate(node_cache, final_board_position, game_history):
     for board in game_history:
         node = find_node(node_cache, board)
         node.visits += 1
-        if is_win(board.get_turn(), final_board_position):
+        if final_board_position.is_winner(board.get_turn()):
             node.wins += 1
-        elif is_loss(board.get_turn(), final_board_position):
+        elif final_board_position.is_loser(board.get_turn()):
             node.losses += 1
         elif final_board_position.is_draw():
             node.draws += 1
@@ -140,15 +140,3 @@ def find_or_create_node(node_cache, board):
 
     node, _ = result
     return node
-
-
-def is_win(player, board):
-    result = board.get_game_result()
-    return ((player == CELL_X and result == RESULT_O_WINS)
-            or (player == CELL_O and result == RESULT_X_WINS))
-
-
-def is_loss(player, board):
-    result = board.get_game_result()
-    return ((player == CELL_X and result == RESULT_X_WINS)
-            or (player == CELL_O and result == RESULT_O_WINS))

@@ -111,6 +111,16 @@ class Board:
     def is_draw(self):
         return self.get_game_result() == RESULT_DRAW
 
+    def is_winner(self, player):
+        result = self.get_game_result()
+        return ((player == CELL_O and result == RESULT_O_WINS)
+                or (player == CELL_X and result == RESULT_X_WINS))
+
+    def is_loser(self, player):
+        result = self.get_game_result()
+        return ((player == CELL_O and result == RESULT_X_WINS)
+                or (player == CELL_X and result == RESULT_O_WINS))
+
     # ----------------------------------------------------
     # moves and state
     def is_in_illegal_state(self):

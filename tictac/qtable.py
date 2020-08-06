@@ -7,16 +7,26 @@ from collections import deque
 
 from tictac.tictac.board import BoardCache, Board
 from tictac.tictac.board import play_game, play_random_move
-from tictac.tictac.board import (CELL_X, CELL_O, RESULT_X_WINS, RESULT_O_WINS)
+from tictac.tictac.board import (CELL_X, CELL_O)
+
+
+# documented at https://nestedsoftware.com/2019/07/25/tic-tac-toe-with-tabular-q-learning-1kdn.139811.html
 
 WIN_VALUE = 1.0
 DRAW_VALUE = 1.0
 LOSS_VALUE = 0.0
 
+# ----------------------------------------------------
 INITIAL_Q_VALUES_FOR_X = 0.0
 INITIAL_Q_VALUES_FOR_O = 0.0
 
 
+def get_initial_q_value(board):
+    return (INITIAL_Q_VALUES_FOR_X if board.get_turn() == CELL_O
+            else INITIAL_Q_VALUES_FOR_O)
+
+
+# ----------------------------------------------------
 class QTable:
     def __init__(self):
         self.qtable = BoardCache()
@@ -63,14 +73,10 @@ class QTable:
             print(f"qvalue = {v}")
 
 
-def get_initial_q_value(board):
-    return (INITIAL_Q_VALUES_FOR_X if board.get_turn() == CELL_O
-            else INITIAL_Q_VALUES_FOR_O)
-
-
+# ----------------------------------------------------
 qtables = [QTable()]
 
-double_qtables = [QTable(), QTable()]
+# double_qtables = [QTable(), QTable()]  # commented out by slihn, no usage
 
 
 def create_q_table_player(q_tables):
@@ -138,6 +144,9 @@ def play_training_games_o(total_games=7000, q_tables=None,
 
 def play_training_games(total_games, q_tables, q_table_player, learning_rate,
                         discount_factor, epsilon, x_strategies, o_strategies):
+    x_strategies_to_use = None
+    o_strategies_to_use = None
+
     if x_strategies:
         x_strategies_to_use = itertools.cycle(x_strategies)
 
@@ -235,21 +244,9 @@ def create_training_player(q_tables, move_history, epsilon):
 
 
 def get_game_result_value(player, board):
-    if is_win(player, board):
+    if board.is_winner(player):
         return WIN_VALUE
-    if is_loss(player, board):
+    if board.is_loser(player):
         return LOSS_VALUE
     if board.is_draw():
         return DRAW_VALUE
-
-
-def is_win(player, board):
-    result = board.get_game_result()
-    return ((player == CELL_O and result == RESULT_O_WINS)
-            or (player == CELL_X and result == RESULT_X_WINS))
-
-
-def is_loss(player, board):
-    result = board.get_game_result()
-    return ((player == CELL_O and result == RESULT_X_WINS)
-            or (player == CELL_X and result == RESULT_O_WINS))

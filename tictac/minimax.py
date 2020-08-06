@@ -5,6 +5,8 @@ from tictac.tictac.board import BoardCache
 from tictac.tictac.board import CELL_O
 from tictac.tictac.board import is_empty
 
+# documented at https://nestedsoftware.com/2019/06/15/tic-tac-toe-with-the-minimax-algorithm-5988.123625.html
+
 cache = BoardCache()  # global cache for minimax player
 
 

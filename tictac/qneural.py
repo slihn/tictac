@@ -8,7 +8,7 @@ import torch
 from torch import nn
 
 from tictac.tictac.board import play_game
-from tictac.tictac.board import (CELL_X, CELL_O, RESULT_X_WINS, RESULT_O_WINS)
+from tictac.tictac.board import (CELL_X, CELL_O)
 
 WIN_VALUE = 1.0
 DRAW_VALUE = 1.0
@@ -104,6 +104,9 @@ def play_training_games_o(net_context, total_games=2000000,
 
 def play_training_games(net_context, qplayer, total_games, discount_factor,
                         epsilon, x_strategies, o_strategies):
+    x_strategies_to_use = None
+    o_strategies_to_use = None
+
     if x_strategies:
         x_strategies_to_use = itertools.cycle(x_strategies)
 
@@ -203,21 +206,9 @@ def choose_move_index(board, model, epsilon):
 
 
 def get_game_result_value(player, board):
-    if is_win(player, board):
+    if board.is_winner(player):
         return WIN_VALUE
-    if is_loss(player, board):
+    if board.is_loser(player):
         return LOSS_VALUE
     if board.is_draw():
         return DRAW_VALUE
-
-
-def is_win(player, board):
-    result = board.get_game_result()
-    return ((player == CELL_O and result == RESULT_O_WINS)
-            or (player == CELL_X and result == RESULT_X_WINS))
-
-
-def is_loss(player, board):
-    result = board.get_game_result()
-    return ((player == CELL_O and result == RESULT_X_WINS)
-            or (player == CELL_X and result == RESULT_O_WINS))

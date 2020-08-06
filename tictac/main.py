@@ -1,8 +1,10 @@
 from tictac.tictac.board import play_games, RESULT_X_WINS, RESULT_O_WINS, RESULT_DRAW
 from tictac.tictac.board import play_random_move
 from tictac.tictac.minimax import create_minimax_player
-from tictac.tictac.qtable import (qtables, play_training_games_x,
-                                  play_training_games_o, create_q_table_player)
+from tictac.tictac.qtable import (qtables,
+                                  play_training_games_x,
+                                  play_training_games_o,
+                                  create_q_table_player)
 
 from tictac.tictac.mcts import play_mcts_move, perform_training_playouts
 
@@ -53,6 +55,10 @@ rs = play_games(1000, play_minimax_move_randomized, play_minimax_move_randomized
 assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
 
+# ----------------------------------------------------
+# ----------------------------------------------------
+# ----------------------------------------------------
+
 print("Training qtable X vs. random...")
 play_training_games_x(q_tables=qtables,
                       o_strategies=[play_random_move])
@@ -64,67 +70,79 @@ print("")
 play_q_table_move = create_q_table_player(qtables)
 print("Playing qtable vs random:")
 print("-------------------------")
-play_games(1000, play_q_table_move, play_random_move)
+rs = play_games(1000, play_q_table_move, play_random_move)
+assert rs[RESULT_X_WINS] >= 90, f"ERROR: X wins too low: {rs}"
 print("")
 print("Playing qtable vs minimax random:")
 print("---------------------------------")
-play_games(1000, play_q_table_move, play_minimax_move_randomized)
+rs = play_games(1000, play_q_table_move, play_minimax_move_randomized)
+assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
 print("Playing qtable vs minimax:")
 print("--------------------------")
-play_games(1000, play_q_table_move, play_minimax_move_not_randomized)
+rs = play_games(1000, play_q_table_move, play_minimax_move_not_randomized)
+assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
 
 print("Playing random vs qtable:")
 print("-------------------------")
-play_games(1000, play_random_move, play_q_table_move)
+rs = play_games(1000, play_random_move, play_q_table_move)
+assert rs[RESULT_O_WINS] >= 50, f"ERROR: X wins too low: {rs}"
 print("")
 print("Playing minimax random vs qtable:")
 print("---------------------------------")
-play_games(1000, play_minimax_move_randomized, play_q_table_move)
+rs = play_games(1000, play_minimax_move_randomized, play_q_table_move)
+assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
 print("Playing minimax vs qtable:")
 print("--------------------------")
-play_games(1000, play_minimax_move_not_randomized, play_q_table_move)
+rs = play_games(1000, play_minimax_move_not_randomized, play_q_table_move)
+assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
 
 print("Playing qtable vs qtable:")
 print("-------------------------")
-play_games(1000, play_q_table_move, play_q_table_move)
+rs = play_games(1000, play_q_table_move, play_q_table_move)
+assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
 print(f"number of items in qtable = {len(qtables[0].qtable.cache)}")
 print("")
 
+# ----------------------------------------------------
+# ----------------------------------------------------
+# ----------------------------------------------------
+
 print("Training MCTS...")
-perform_training_playouts()
+perform_training_playouts(num_playouts=7000)
 print("")
 print("Playing random vs MCTS:")
 print("-----------------------")
-play_games(1000, play_random_move, play_mcts_move)
+rs = play_games(1000, play_random_move, play_mcts_move)
 print("")
 print("Playing minimax vs MCTS:")
 print("------------------------")
-play_games(1000, play_minimax_move_not_randomized, play_mcts_move)
+rs = play_games(1000, play_minimax_move_not_randomized, play_mcts_move)
 print("")
 print("Playing minimax random vs MCTS:")
 print("-------------------------------")
-play_games(1000, play_minimax_move_randomized, play_mcts_move)
+rs = play_games(1000, play_minimax_move_randomized, play_mcts_move)
 print("")
 print("Playing MCTS vs random:")
 print("-----------------------")
-play_games(1000, play_mcts_move, play_random_move)
+rs = play_games(1000, play_mcts_move, play_random_move)
 print("")
 print("Playing MCTS vs minimax:")
 print("------------------------")
-play_games(1000, play_mcts_move, play_minimax_move_not_randomized)
+rs = play_games(1000, play_mcts_move, play_minimax_move_not_randomized)
 print("")
 print("Playing MCTS vs minimax random:")
 print("-------------------------------")
-play_games(1000, play_mcts_move, play_minimax_move_randomized)
+rs = play_games(1000, play_mcts_move, play_minimax_move_randomized)
 print("")
 print("Playing MCTS vs MCTS:")
 print("---------------------")
-play_games(1000, play_mcts_move, play_mcts_move)
+rs = play_games(1000, play_mcts_move, play_mcts_move)
+assert rs[RESULT_DRAW] == 100, f"ERROR: Draw should be 100: {rs}"
 print("")
 
 # You can uncomment the code below to run MCTS in online mode
